@@ -18,7 +18,8 @@ class CursoController extends Controller
          * esta se envia a la vista, el parametro es el objeto creado a partir del Modelo
          * o la variable proveniente de la funcion
          */
-        $cursos = Curso::paginate();
+        //$cursos = Curso::paginate();
+        $cursos = Curso::orderby('id','desc')->paginate();
         return view('cursos.index', compact('cursos'));
     }
 
@@ -49,5 +50,66 @@ class CursoController extends Controller
      */
     public function show(Curso $curso){
         return view('cursos.show', compact('curso'));
+    }
+
+    /**
+     * Metodo para guardar datos del form Curso
+     */
+    public function store(Request $request){
+        //return $request->all();
+        /**
+         * Metodo Validate permite validar que los valores no lleguen vacios
+         * en los formularions, este metodo se complementa con una alerta visual en 
+         * la vista create.blade.php a travez del @error() @enderror()
+         */
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'category' => 'required',
+        ]);
+
+        $curso = new Curso();
+        //$curso->name = $request->name;
+        // Filter_var + FILTER_SANITIZE_STRING Ayuda a limpiar inyecciones de codigo HTML en campos de texto
+        $curso->name = filter_var($request->name, FILTER_SANITIZE_STRING);
+        $curso->description = filter_var($request->description, FILTER_SANITIZE_STRING);
+        $curso->category = filter_var($request->category, FILTER_SANITIZE_STRING);
+        //$curso->description = $request->description;
+        //$curso->category = $request->category;
+        $curso->save();
+
+        return redirect()->route('cursos.show', $curso);
+    }
+
+    public function edit(Curso $curso){
+        //return $curso;
+        return view('cursos.edit', compact('curso'));
+    }
+
+    public function update(Request $request, Curso $curso){
+        /**
+         * Metodo Validate permite validar que los valores no lleguen vacios
+         * en los formularions, este metodo se complementa con una alerta visual en 
+         * la vista create.blade.php a travez del @error() @enderror()
+         * Descargar lenguaje en español con compando consola
+         * 1) composer require laravel-lang/common --dev
+         * 2) php artisan lang:add es
+         */
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'category' => 'required',
+        ]);
+        //$curso->name = $request->name;
+        //$curso->description= $request->description;
+        //$curso->category = $request->category;
+
+        // Filter_var + FILTER_SANITIZE_STRING Ayuda a limpiar inyecciones de codigo HTML en campos de texto
+        $curso->name = filter_var($request->name, FILTER_SANITIZE_STRING);
+        $curso->description = filter_var($request->description, FILTER_SANITIZE_STRING);
+        $curso->category = filter_var($request->category, FILTER_SANITIZE_STRING);
+        
+        $curso->save();
+        return redirect()->route('cursos.show', $curso);
     }
 }

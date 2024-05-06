@@ -12,7 +12,7 @@
     ease-in duration-200 rounded p-2">
         Volver a los Cursos
     </a>
-    <a href="" class="ml-5 text-gray-300 bg-slate-950 hover:bg-slate-700
+    <a href="{{route('cursos.edit', $curso)}}" class="ml-5 text-gray-300 bg-slate-950 hover:bg-slate-700
     ease-in duration-200 rounded p-2">
         Editar a los Cursos
     </a>

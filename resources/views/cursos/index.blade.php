@@ -3,6 +3,10 @@
 @section('title', 'Index')
 
 @section('content')
+<a class="bg-sky-500 hover:bg-sky-200
+    ease-in-out duration-200 rounded-md p-2" 
+href="{{route('cursos.create')}}">Crear Curso</a>
+
 <h1 class="mt-5 mb-8 ml-5 bg-clip-text text-transparent bg-gradient-to-r
     from-pink-500 to-violet-500 text-[32px] ">Bienvenido al Index</h1>
 <ul>
