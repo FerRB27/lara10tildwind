@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,5 +21,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        /**
+         * Editar el nombre de las rutas de manera visual en la URL.
+         */
+        Route::resourceVerbs([
+            'create'=> 'crear',
+            'edit' => 'editar',
+        ]);
     }
 }

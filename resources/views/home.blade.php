@@ -1,6 +1,6 @@
-@extends('layout.plantilla');
+@extends('layout.plantilla')
 
-@section('title', 'Home');
+@section('title', 'Home')
 
 @section('content')
 <h1>Bienvenido al Home</h1>

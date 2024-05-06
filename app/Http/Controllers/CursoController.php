@@ -31,18 +31,6 @@ class CursoController extends Controller
     }
 
     /**
-     * Funcion Show
-    *public function show($curso){
-     *   /**
-         * compact(): Crea un array que contiene variables y sus valores
-         * esta se envia a la vista,, el parametro es el objeto creado a partir del Modelo
-         * o la variable proveniente de la funcion
-         
-        *return view('cursos.show', compact('curso'));
-    *}
-    */
-
-    /**
      *  Crear una instancia del Modelo y pasarlo como pparametro
      *  en la funcion, ayudara a obtener todos los valores de dicho objeto.
      *  En caso de nombrar solo la variable (No instanciarla), esta tomara el valor asignado
@@ -68,19 +56,24 @@ class CursoController extends Controller
             'category' => 'required',
         ]);
 
-        $curso = new Curso();
-        //$curso->name = $request->name;
+        //$curso = new Curso();
+
         // Filter_var + FILTER_SANITIZE_STRING Ayuda a limpiar inyecciones de codigo HTML en campos de texto
-        $curso->name = filter_var($request->name, FILTER_SANITIZE_STRING);
-        $curso->description = filter_var($request->description, FILTER_SANITIZE_STRING);
-        $curso->category = filter_var($request->category, FILTER_SANITIZE_STRING);
+        
+        //$curso->name = $request->name;
+        //$curso->name = filter_var($request->name, FILTER_SANITIZE_STRING);
+        //$curso->description = filter_var($request->description, FILTER_SANITIZE_STRING);
+        //$curso->category = filter_var($request->category, FILTER_SANITIZE_STRING);
         //$curso->description = $request->description;
         //$curso->category = $request->category;
-        $curso->save();
-
-        return redirect()->route('cursos.show', $curso);
+        //$curso->save();
+        /**
+         * Considere asi tambien na asignacion masiva para
+         * formularios con demasiados campos. No necesitamos ejecutar el comando save;
+         */
+        $curso = Curso::create(filter_var_array($request->all(), FILTER_SANITIZE_STRING));
+        return redirect()->route('curso.show', $curso);
     }
-
     public function edit(Curso $curso){
         //return $curso;
         return view('cursos.edit', compact('curso'));
@@ -105,11 +98,22 @@ class CursoController extends Controller
         //$curso->category = $request->category;
 
         // Filter_var + FILTER_SANITIZE_STRING Ayuda a limpiar inyecciones de codigo HTML en campos de texto
-        $curso->name = filter_var($request->name, FILTER_SANITIZE_STRING);
-        $curso->description = filter_var($request->description, FILTER_SANITIZE_STRING);
-        $curso->category = filter_var($request->category, FILTER_SANITIZE_STRING);
+        //$curso->name = filter_var($request->name, FILTER_SANITIZE_STRING);
+        //$curso->description = filter_var($request->description, FILTER_SANITIZE_STRING);
+        //$curso->category = filter_var($request->category, FILTER_SANITIZE_STRING);
         
-        $curso->save();
-        return redirect()->route('cursos.show', $curso);
+        //$curso->save();
+
+        /**
+         * Considere asi tambien na asignacion masiva para
+         * formularios con demasiados campos. No necesitamos ejecutar el comando save;
+         */
+        $curso->update(filter_var_array($request->all(), FILTER_SANITIZE_STRING));
+        return redirect()->route('curso.show', $curso);
+    }
+
+    public function destroy(Curso $curso){
+        $curso->delete();
+        return redirect()->route('curso.index', $curso);
     }
 }

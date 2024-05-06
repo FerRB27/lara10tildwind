@@ -4,7 +4,10 @@
 
 @section('content')
 <h1 class="mb-8 text-amber-900 text-3xl">Actualiza la Informacion</h1>
-
+<a href="{{route('curso.index')}}" class="text-gray-300 bg-slate-950 hover:bg-slate-700
+    ease-in duration-200 rounded p-2">
+        Volver a los Cursos
+    </a>
 <div class="container w-11/12 max-w-screen-md m-auto">
     <form action="{{route('curso.update', $curso)}}" method="POST" class="bg-gray-100 p-3">
         @csrf
